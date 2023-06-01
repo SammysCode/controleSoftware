@@ -46,7 +46,7 @@ void loop() {
  
  //buzzer and Shock
  val = digitalRead (shock); 
-	if (val == LOW ) { 
+	if (val == LOW && lockedorunlocked) { 
     shockmemorie = true;
     if(shockmemorie){
      digitalWrite(buzzer, HIGH); 
@@ -95,23 +95,11 @@ void loop() {
       digitalWrite(motorclose1, HIGH);
       digitalWrite(motorclose2, HIGH);
       bluetooth.println("opening bike");
-      moving = true;
       delay(2000);
       digitalWrite(motorclose1, LOW);
       digitalWrite(motorclose2, LOW);
       lockedorunlocked = false;
-      if (moving){
-        int sensorValue = analogRead(A0);
-        Serial.println(sensorValue);
-        if (sensorValue > 100) {
-        digitalWrite(motoropen1, LOW);
-        digitalWrite(motoropen2, LOW);
-        digitalWrite(motorclose1, HIGH);
-        digitalWrite(motorclose2, HIGH);
-        bluetooth.println("Locking failed. Remove blockage and lock again");
-  }
-  }
-      moving = false;
+      
     } 
     if (receivedChar == '3'){
       shockmemorie = false;
